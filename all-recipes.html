@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Recipes - Sizzle&amp;Spice</title>
+    <style>
+/* ===== CSS Variables ===== */
+:root {
+    --primary-color: #ff6b35;
+    --secondary-color: #2d3436;
+    --accent-color: #f8b500;
+    --text-color: #4a4a4a;
+    --text-light: #888;
+    --bg-light: #f9f9f9;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+}
+
+/* ===== Reset & Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--white);
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== Utility Classes ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #ff8c5a);
+    color: var(--white);
+    box-shadow: 0 5px 20px rgba(255, 107, 53, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+}
+
+/* ===== Filter & Search Styles ===== */
+.filter-container {
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+}
+
+.search-box {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.search-wrapper {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 15px 50px 15px 25px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.search-wrapper input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 20px rgba(255, 107, 53, 0.15);
+}
+
+.search-wrapper i {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.category-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border: 1px solid #ddd;
+    background: var(--white);
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Navigation ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    font-size: 1.5rem;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--secondary-color);
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-icons a {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    transition: var(--transition);
+}
+
+.nav-icons a:hover {
+    color: var(--primary-color);
+}
+
+.btn-subscribe {
+    background: var(--primary-color);
+    color: var(--white) !important;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.btn-subscribe:hover {
+    background: #ff8c5a;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--secondary-color);
+    margin: 5px 0;
+    transition: var(--transition);
+}
+
+/* ===== Featured Recipes Section ===== */
+.featured-recipes {
+    padding: 140px 20px 100px;
+    background: var(--white);
+    min-height: 100vh;
+}
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recipe-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.recipe-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.recipe-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.recipe-card:hover .recipe-image img {
+    transform: scale(1.1);
+}
+
+.recipe-time {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--white);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.recipe-difficulty {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.recipe-difficulty.easy {
+    background: #2ecc71;
+}
+
+.recipe-difficulty.medium {
+    background: var(--accent-color);
+}
+
+.recipe-difficulty.hard {
+    background: #e74c3c;
+}
+
+.recipe-content {
+    padding: 25px;
+}
+
+.recipe-category {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.recipe-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.recipe-content p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.recipe-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.recipe-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.recipe-meta i {
+    color: var(--accent-color);
+}
+
+.btn-recipe {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color), #ff8c5a);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-recipe:hover {
+    background: linear-gradient(135deg, #ff8c5a, var(--primary-color));
+}
+
+/* ===== Footer ===== */
+.footer {
+    background: var(--secondary-color);
+    color: var(--white);
+    padding: 70px 20px 20px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+}
+
+.footer-brand .logo {
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.footer-brand p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: var(--primary-color);
+}
+
+.footer-links h4,
+.footer-contact h4 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.footer-links ul li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    padding-left: 5px;
+}
+
+.footer-contact p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-contact i {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-bottom i {
+    color: #e74c3c;
+}
+
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 5px;
+    vertical-align: middle;
+    display: none;
+}
+
+/* ===== Chat Widget ===== */
+.chat-widget {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 2000;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+.chat-widget.active { display: flex; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.chat-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header h3 { color: white; margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
+.chat-header button { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.message { background: white; padding: 8px 12px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); max-width: 85%; font-size: 0.9rem; }
+.message.self { align-self: flex-end; background: #fff0e6; border-bottom-right-radius: 2px; }
+.message.other { align-self: flex-start; border-bottom-left-radius: 2px; }
+.message-user { font-weight: 600; font-size: 0.75rem; color: var(--primary-color); margin-bottom: 2px; }
+.message-text { color: var(--secondary-color); word-wrap: break-word; }
+.message-time { font-size: 0.65rem; color: #999; text-align: right; margin-top: 3px; }
+.chat-input-area { padding: 15px; background: white; border-top: 1px solid #eee; }
+.chat-input-area input {
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; outline: none; font-family: inherit;
+}
+.chat-input-area button {
+    background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 5px; cursor: pointer;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+    .recipe-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: var(--white);
+        flex-direction: column;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+    .nav-menu.active {
+        left: 0;
+    }
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="AGI.HTML" class="logo">
+                <i class="fas fa-utensils"></i> Sizzle&amp;Spice
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="AGI.HTML#home" class="nav-link">Home</a></li>
+                <li><a href="AGI.HTML#recipes" class="nav-link active">Recipes</a></li>
+                <li><a href="AGI.HTML#categories" class="nav-link">Categories</a></li>
+                <li><a href="AGI.HTML#about" class="nav-link">About</a></li>
+                <li><a href="AGI.HTML#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-icons">
+                <a href="#" class="chat-btn"><i class="fas fa-comment"></i></a>
+                <a href="#" class="cart-btn"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#" class="btn-subscribe">Subscribe</a>
+            </div>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- All Recipes Section -->
+    <section class="featured-recipes">
+        <div class="section-header">
+            <span class="section-tag">Our Collection</span>
+            <h2>All Recipes</h2>
+            <p>Explore our complete collection of delicious recipes</p>
+        </div>
+        
+        <div class="filter-container">
+            <div class="search-box">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Search for recipes...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Vegetarian">Vegetarian</button>
+                <button class="filter-btn" data-filter="Spicy">Spicy</button>
+                <button class="filter-btn" data-filter="Baking">Baking</button>
+                <button class="filter-btn" data-filter="Dessert">Desserts</button>
+                <button class="filter-btn" data-filter="Healthy">Healthy</button>
+                <button class="filter-btn" data-filter="Quick Meals">Quick Meals</button>
+            </div>
+        </div>
+        
+        <div class="recipe-grid">
+            <!-- Existing 6 Recipes -->
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" alt="Pizza">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 30 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Italian</div>
+                    <h3>Classic Margherita Pizza</h3>
+                    <p>A traditional Italian pizza with fresh mozzarella, tomatoes, and basil.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.8 (120)</span>
+                        <span><i class="fas fa-fire"></i> 350 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400" alt="Pancakes">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 25 min</span>
+                    <span class="recipe-difficulty medium">Medium</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Breakfast</div>
+                    <h3>Fluffy Blueberry Pancakes</h3>
+                    <p>Light and fluffy pancakes bursting with fresh blueberries.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.9 (85)</span>
+                        <span><i class="fas fa-fire"></i> 280 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Salad">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 15 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Healthy</div>
+                    <h3>Mediterranean Quinoa Salad</h3>
+                    <p>Fresh and healthy salad with quinoa, vegetables, and feta cheese.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.7 (95)</span>
+                        <span><i class="fas fa-fire"></i> 220 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400" alt="Pasta">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 35 min</span>
+                    <span class="recipe-difficulty medium">Medium</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Italian</div>
+                    <h3>Creamy Garlic Pasta</h3>
+                    <p>Rich and creamy pasta with roasted garlic and parmesan.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.6 (110)</span>
+                        <span><i class="fas fa-fire"></i> 420 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400" alt="Toast">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 10 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Breakfast</div>
+                    <h3>Avocado Toast Supreme</h3>
+                    <p>Perfectly toasted bread topped with creamy avocado and eggs.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.8 (200)</span>
+                        <span><i class="fas fa-fire"></i> 320 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400" alt="Dessert">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 45 min</span>
+                    <span class="recipe-difficulty hard">Hard</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Dessert</div>
+                    <h3>Chocolate Lava Cake</h3>
+                    <p>Decadent chocolate cake with a molten center and vanilla ice cream.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 5.0 (75)</span>
+                        <span><i class="fas fa-fire"></i> 480 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <!-- New Recipes (More Items) -->
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400" alt="Sushi">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 50 min</span>
+                    <span class="recipe-difficulty hard">Hard</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Japanese</div>
+                    <h3>Assorted Sushi Platter</h3>
+                    <p>Fresh and delicate sushi rolls with wasabi and pickled ginger.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.9 (150)</span>
+                        <span><i class="fas fa-fire"></i> 300 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400" alt="Tacos">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 20 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Mexican</div>
+                    <h3>Spicy Beef Tacos</h3>
+                    <p>Crunchy taco shells filled with seasoned beef and fresh toppings.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.7 (180)</span>
+                        <span><i class="fas fa-fire"></i> 350 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="Burger">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 25 min</span>
+                    <span class="recipe-difficulty medium">Medium</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">American</div>
+                    <h3>Classic Cheese Burger</h3>
+                    <p>Juicy beef patty with melted cheese, lettuce, and tomato.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.8 (220)</span>
+                        <span><i class="fas fa-fire"></i> 550 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1628579109313-a7d544843539?w=400" alt="Thai Green Curry">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 35 min</span>
+                    <span class="recipe-difficulty medium">Medium</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Spicy</div>
+                    <h3>Spicy Thai Green Curry</h3>
+                    <p>An authentic and aromatic Thai green curry with a spicy kick.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.8 (195)</span>
+                        <span><i class="fas fa-fire"></i> 480 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400" alt="Chocolate Chip Cookies">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 30 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Baking</div>
+                    <h3>Classic Chocolate Chip Cookies</h3>
+                    <p>Warm, gooey, and perfectly baked chocolate chip cookies for everyone.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.9 (300)</span>
+                        <span><i class="fas fa-fire"></i> 150 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1534432182912-63863115e106?w=400" alt="Cheesecake">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 90 min</span>
+                    <span class="recipe-difficulty hard">Hard</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Desserts</div>
+                    <h3>New York Cheesecake</h3>
+                    <p>A rich, dense, and creamy cheesecake with a graham cracker crust.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.9 (210)</span>
+                        <span><i class="fas fa-fire"></i> 500 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400" alt="Grilled Salmon">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 20 min</span>
+                    <span class="recipe-difficulty easy">Easy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Healthy</div>
+                    <h3>Grilled Salmon & Asparagus</h3>
+                    <p>A light and healthy meal of perfectly grilled salmon and fresh asparagus.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.8 (170)</span>
+                        <span><i class="fas fa-fire"></i> 380 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1604909052149-c6363b624193?w=400" alt="Lemon Herb Chicken">
+                    <span class="recipe-time"><i class="far fa-clock"></i> 40 min</span>
+                    <span class="recipe-difficulty medium">Medium</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-category">Quick Meals</div>
+                    <h3>One-Pan Lemon Herb Chicken</h3>
+                    <p>A delicious and easy one-pan meal with zesty lemon and aromatic herbs.</p>
+                    <div class="recipe-meta">
+                        <span><i class="fas fa-star"></i> 4.7 (165)</span>
+                        <span><i class="fas fa-fire"></i> 420 cal</span>
+                    </div>
+                    <a href="#" class="btn-recipe">View Recipe</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="AGI.HTML" class="logo">
+                    <i class="fas fa-utensils"></i> Sizzle&amp;Spice
+                </a>
+                <p>Your ultimate destination for delicious recipes and culinary inspiration.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="AGI.HTML#home">Home</a></li>
+                    <li><a href="AGI.HTML#about">About Us</a></li>
+                    <li><a href="AGI.HTML#recipes">Recipes</a></li>
+                    <li><a href="AGI.HTML#contact">Contact</a></li>
+                    <li><a href="request.html">Request a Recipe</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">Vegetarian</a></li>
+                    <li><a href="#">Quick Meals</a></li>
+                    <li><a href="#">Desserts</a></li>
+                    <li><a href="#">Healthy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-envelope"></i> hello@sizzleandspice.com</p>
+                <p><i class="fas fa-phone"></i> +91 12345 67890</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Food Street, Cooking City</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Sizzle&amp;Spice. All rights reserved. Made with <i class="fas fa-heart"></i> for food lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <h3><i class="fas fa-comments"></i> Global Kitchen Chat</h3>
+            <button id="close-chat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-username" placeholder="Your Name" style="margin-bottom: 5px;">
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+                <button id="send-chat-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const recipeGrid = document.querySelector('.recipe-grid');
+
+            // --- Generate Vegetarian Items ---
+            // Define authentic Indian dishes with correct images and descriptions
+const vegDishes = [
+  { title: "Paneer Tikka", image: "/images/paneer-tikka.jpg", desc: "Grilled paneer cubes marinated in spices." },
+  { title: "Paneer Butter Masala", image: "/images/paneer-butter-masala.jpg", desc: "Creamy tomato gravy with paneer." },
+  { title: "Palak Paneer", image: "/images/palak-paneer.jpg", desc: "Spinach-based curry with paneer cubes." },
+  { title: "Matar Paneer", image: "/images/matar-paneer.jpg", desc: "Paneer and peas cooked in masala gravy." },
+  { title: "Kadai Paneer", image: "/images/kadai-paneer.jpg", desc: "Spicy paneer dish with capsicum." },
+  { title: "Shahi Paneer", image: "/images/shahi-paneer.jpg", desc: "Rich creamy paneer curry." },
+  { title: "Paneer Bhurji", image: "/images/paneer-bhurji.jpg", desc: "Scrambled paneer cooked with spices." },
+  { title: "Dal Tadka", image: "/images/dal-tadka.jpg", desc: "Yellow lentils tempered with spices." },
+  { title: "Dal Makhani", image: "/images/dal-makhani.jpg", desc: "Creamy black lentils slow-cooked." },
+  { title: "Chana Masala", image: "/images/chana-masala.jpg", desc: "Spicy chickpea curry." },
+
+  { title: "Rajma Masala", image: "/images/rajma-masala.jpg", desc: "Kidney beans cooked in thick gravy." },
+  { title: "Kadhi Pakora", image: "/images/kadhi-pakora.jpg", desc: "Yogurt curry with fried pakoras." },
+  { title: "Aloo Gobi", image: "/images/aloo-gobi.jpg", desc: "Potato and cauliflower dish." },
+  { title: "Dum Aloo", image: "/images/dum-aloo.jpg", desc: "Baby potatoes in rich gravy." },
+  { title: "Baingan Bharta", image: "/images/baingan-bharta.jpg", desc: "Smoky mashed eggplant curry." },
+  { title: "Bhindi Masala", image: "/images/bhindi-masala.jpg", desc: "Okra stir-fried with spices." },
+  { title: "Mix Veg Curry", image: "/images/mix-veg-curry.jpg", desc: "Mixed vegetables in gravy." },
+  { title: "Veg Biryani", image: "/images/veg-biryani.jpg", desc: "Fragrant rice cooked with vegetables." },
+  { title: "Veg Pulao", image: "/images/veg-pulao.jpg", desc: "Light rice with vegetables." },
+  { title: "Jeera Rice", image: "/images/jeera-rice.jpg", desc: "Rice flavored with cumin seeds." },
+
+  { title: "Lemon Rice", image: "/images/lemon-rice.jpg", desc: "Tangy rice flavored with lemon." },
+  { title: "Curd Rice", image: "/images/curd-rice.jpg", desc: "Cooling rice mixed with yogurt." },
+  { title: "Tomato Rice", image: "/images/tomato-rice.jpg", desc: "Spicy rice cooked with tomatoes." },
+  { title: "Masala Dosa", image: "/images/masala-dosa.jpg", desc: "Crispy dosa with potato filling." },
+  { title: "Plain Dosa", image: "/images/plain-dosa.jpg", desc: "Thin crispy rice crepe." },
+  { title: "Idli Sambar", image: "/images/idli-sambar.jpg", desc: "Steamed rice cakes with lentil soup." },
+  { title: "Medu Vada", image: "/images/medu-vada.jpg", desc: "Crispy lentil donuts." },
+  { title: "Uttapam", image: "/images/uttapam.jpg", desc: "Thick dosa topped with veggies." },
+  { title: "Upma", image: "/images/upma.jpg", desc: "Savory semolina breakfast dish." },
+  { title: "Pongal", image: "/images/pongal.jpg", desc: "Rice and lentil comfort food." },
+
+  { title: "Pav Bhaji", image: "/images/pav-bhaji.jpg", desc: "Spicy mashed vegetable curry." },
+  { title: "Vada Pav", image: "/images/vada-pav.jpg", desc: "Indian burger with potato filling." },
+  { title: "Pani Puri", image: "/images/pani-puri.jpg", desc: "Crispy balls with spicy water." },
+  { title: "Bhel Puri", image: "/images/bhel-puri.jpg", desc: "Puffed rice snack with chutneys." },
+  { title: "Sev Puri", image: "/images/sev-puri.jpg", desc: "Crispy puris topped with chutney." },
+  { title: "Samosa", image: "/images/samosa.jpg", desc: "Fried pastry with potato filling." },
+  { title: "Kachori", image: "/images/kachori.jpg", desc: "Crispy stuffed fried snack." },
+  { title: "Dhokla", image: "/images/dhokla.jpg", desc: "Soft steamed Gujarati snack." },
+  { title: "Khandvi", image: "/images/khandvi.jpg", desc: "Rolled gram flour snack." },
+  { title: "Fafda", image: "/images/fafda.jpg", desc: "Crunchy Gujarati snack." },
+
+  { title: "Poha", image: "/images/poha.jpg", desc: "Flattened rice breakfast dish." },
+  { title: "Sabudana Khichdi", image: "/images/sabudana-khichdi.jpg", desc: "Tapioca pearls with peanuts." },
+  { title: "Bread Pakora", image: "/images/bread-pakora.jpg", desc: "Bread fritters stuffed with filling." },
+  { title: "Veg Cutlet", image: "/images/veg-cutlet.jpg", desc: "Crispy vegetable patties." },
+  { title: "Veg Burger", image: "/images/veg-burger.jpg", desc: "Burger with vegetable patty." },
+  { title: "Veg Pizza", image: "/images/veg-pizza.jpg", desc: "Pizza topped with vegetables." },
+  { title: "Veg Sandwich", image: "/images/veg-sandwich.jpg", desc: "Fresh sandwich with veggies." },
+  { title: "Paneer Wrap", image: "/images/paneer-wrap.jpg", desc: "Wrap filled with paneer." },
+  { title: "Veg Pasta", image: "/images/veg-pasta.jpg", desc: "Pasta cooked with vegetables." },
+  { title: "White Sauce Pasta", image: "/images/white-sauce-pasta.jpg", desc: "Creamy pasta dish." },
+
+  { title: "Red Sauce Pasta", image: "/images/red-sauce-pasta.jpg", desc: "Tomato-based pasta." },
+  { title: "Veg Noodles", image: "/images/veg-noodles.jpg", desc: "Stir-fried noodles with veggies." },
+  { title: "Veg Fried Rice", image: "/images/veg-fried-rice.jpg", desc: "Rice stir-fried with vegetables." },
+  { title: "Gobi Manchurian", image: "/images/gobi-manchurian.jpg", desc: "Cauliflower in spicy sauce." },
+  { title: "Paneer Manchurian", image: "/images/paneer-manchurian.jpg", desc: "Paneer in Indo-Chinese sauce." },
+  { title: "Spring Rolls", image: "/images/spring-rolls.jpg", desc: "Crispy rolls filled with veggies." },
+  { title: "Veg Momos", image: "/images/veg-momos.jpg", desc: "Steamed dumplings with filling." },
+  { title: "Chilli Paneer", image: "/images/chilli-paneer.jpg", desc: "Spicy paneer Indo-Chinese dish." },
+
+  { title: "Gulab Jamun", image: "/images/gulab-jamun.jpg", desc: "Sweet milk-solid dessert balls." },
+  { title: "Rasgulla", image: "/images/rasgulla.jpg", desc: "Soft spongy syrup dessert." },
+  { title: "Rasmalai", image: "/images/rasmalai.jpg", desc: "Cheese patties in sweet milk." },
+  { title: "Kheer", image: "/images/kheer.jpg", desc: "Rice pudding dessert." },
+  { title: "Gajar Halwa", image: "/images/gajar-halwa.jpg", desc: "Carrot-based sweet dessert." },
+  { title: "Jalebi", image: "/images/jalebi.jpg", desc: "Crispy spiral sweet soaked in syrup." },
+
+  { title: "Lassi", image: "/images/lassi.jpg", desc: "Sweet yogurt-based drink." },
+  { title: "Buttermilk", image: "/images/buttermilk.jpg", desc: "Refreshing spiced drink." },
+  { title: "Cold Coffee", image: "/images/cold-coffee.jpg", desc: "Chilled coffee beverage." },
+  { title: "Mango Shake", image: "/images/mango-shake.jpg", desc: "Sweet mango milkshake." }
+];
+
+            // Display unique dishes with correct information
+            vegDishes.forEach((dish, i) => {
+                const title = dish.title;
+                const img = dish.image;
+                const desc = dish.desc;
+                
+                const time = 15 + (i % 45);
+                const calories = 200 + (i * 7) % 400;
+                const rating = (4.0 + (i % 10) / 10).toFixed(1);
+                const reviews = 50 + (i * 3) % 500;
+                
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <div class="recipe-image">
+                        <img src="${img}" alt="${title}" loading="lazy">
+                        <span class="recipe-time"><i class="far fa-clock"></i> ${time} min</span>
+                        <span class="recipe-difficulty ${i % 3 === 0 ? 'easy' : (i % 3 === 1 ? 'medium' : 'hard')}">${i % 3 === 0 ? 'Easy' : (i % 3 === 1 ? 'Medium' : 'Hard')}</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-category">Vegetarian</div>
+                        <h3>${title}</h3>
+                        <p>${desc}</p>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-star"></i> ${rating} (${reviews})</span>
+                            <span><i class="fas fa-fire"></i> ${calories} cal</span>
+                        </div>
+                        <a href="#" class="btn-recipe">View Recipe</a>
+                    </div>
+                `;
+                recipeGrid.appendChild(card);
+            });
+
+            function filterRecipes() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeBtn = document.querySelector('.filter-btn.active');
+                const activeCategory = activeBtn.getAttribute('data-filter');
+                const recipeCards = document.querySelectorAll('.recipe-card');
+
+                recipeCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const categoryEl = card.querySelector('.recipe-category');
+                    const category = categoryEl ? categoryEl.textContent : '';
+                    
+                    let categoryMatch = false;
+                    if (activeCategory === 'all') {
+                        categoryMatch = true;
+                    } else if (activeCategory === 'Dessert') {
+                        categoryMatch = category.includes('Dessert');
+                    } else {
+                        categoryMatch = category.includes(activeCategory);
+                    }
+
+                    const searchMatch = title.includes(searchTerm);
+
+                    if (categoryMatch && searchMatch) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', filterRecipes);
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterRecipes();
+                });
+            });
+        });
+
+        // Chat Logic
+        const chatBtn = document.querySelector('.chat-btn');
+        const chatWidget = document.getElementById('chat-widget');
+        const closeChatBtn = document.getElementById('close-chat');
+        const chatInput = document.getElementById('chat-input');
+        const chatUsername = document.getElementById('chat-username');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+        const chatMessages = document.getElementById('chat-messages');
+        
+        const socket = io();
+
+        if(chatBtn) {
+            chatBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatWidget.classList.toggle('active');
+                if(chatWidget.classList.contains('active')) {
+                    scrollToBottom();
+                    const savedName = localStorage.getItem('chat_username');
+                    if(savedName) chatUsername.value = savedName;
+                }
+            });
+        }
+
+        if(closeChatBtn) closeChatBtn.addEventListener('click', () => chatWidget.classList.remove('active'));
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            const username = chatUsername.value.trim() || 'Guest';
+            if(message) {
+                localStorage.setItem('chat_username', username);
+                socket.emit('send_chat_message', { username, message });
+                chatInput.value = '';
+            }
+        }
+
+        if(sendChatBtn) sendChatBtn.addEventListener('click', sendMessage);
+        if(chatInput) chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+        socket.on('receive_chat_message', (data) => appendMessage(data));
+        socket.on('chat_history', (history) => {
+            chatMessages.innerHTML = '';
+            history.forEach(msg => appendMessage(msg));
+        });
+
+        function appendMessage(data) {
+            const isSelf = data.username === (chatUsername.value || localStorage.getItem('chat_username'));
+            const div = document.createElement('div');
+            div.className = `message ${isSelf ? 'self' : 'other'}`;
+            const time = new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            div.innerHTML = `<div class="message-user">${data.username}</div><div class="message-text">${data.message}</div><div class="message-time">${time}</div>`;
+            chatMessages.appendChild(div);
+            scrollToBottom();
+        }
+        function scrollToBottom() { chatMessages.scrollTop = chatMessages.scrollHeight; }
+
+        // Check for admin notifications
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/payment-requests')
+                .then(response => response.json())
+                .then(requests => {
+                    const badge = document.getElementById('admin-badge');
+                    if (requests.length > 0 && badge) {
+                        badge.textContent = requests.length;
+                        badge.style.display = 'inline-block';
+                    }
+                }).catch(err => console.log('Error checking notifications'));
+        });
+    </script>
+</body>
+</html>
